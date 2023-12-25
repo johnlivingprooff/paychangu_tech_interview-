@@ -57,9 +57,10 @@ body {
     border-bottom: 1px wheat solid;
 }
 
-#first_name:focus-visible, #last_name:focus-visible, #email:focus {
+#first_name:focus, #last_name:focus, #email:focus {
     padding-bottom: 10px;
     border-bottom: 1px wheat solid;
+    outline: none;
 }
 
 
@@ -72,6 +73,7 @@ body {
     letter-spacing: 1px;
     transition: background-color 0.3s ease;
     justify-content: right;
+    outline: none;
 }
 
 #money {
@@ -83,6 +85,7 @@ body {
     border-bottom: 1px #585858 solid;
     width: 150px;
     transition: border-bottom 0.4s ease;
+    outline: none;
     padding-bottom: 5px;
 }
 
@@ -95,6 +98,7 @@ body {
     border-bottom: 1px #585858 solid;
     width: 70px;
     transition: border-bottom 0.4s ease;
+    outline: none;
     padding-bottom: 5px;
 }
 
