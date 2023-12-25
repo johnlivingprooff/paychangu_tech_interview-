@@ -11,7 +11,7 @@
                   email: '',
                   first_name: '',
                   last_name: '',
-                  callback_url: 'https://johnlivingprooff.github.io/paychangu_tech_interview-/',
+                  callback_url: 'https://johnlivingprooff.github.io/paychangu_tech_interview-/paid',
                   return_url: 'https://johnlivingprooff.github.io/paychangu_tech_interview-/paid',
                   tx_ref: '',
                   customization: { title: 'Donation', description: 'Supporting a good cause' },
@@ -42,7 +42,7 @@
                   .then(response => {
                    console.log(response);
                    if (response.status === 'success') {
-                     this.paymentStatus = 'Payment successful!';
+                     window.location.href = response.data.checkout_url;
                      this.clearForm();
                    } else {
                      this.paymentStatus = 'Payment failed. Please try again.';
