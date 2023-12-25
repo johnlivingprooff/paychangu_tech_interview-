@@ -25,7 +25,7 @@
               if (this.isValidForm()) {
                 // Generates a unique ref-id for paument
                 this.formData.tx_ref = this.generateUniqueTransactionReference();
-                delete this.formData.callback_url;
+                // delete this.formData.callback_url;
    
                 const options = {
                   method: 'POST',
