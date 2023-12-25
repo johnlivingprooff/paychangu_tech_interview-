@@ -27,7 +27,6 @@
 
 <script>
 
-  
   new Vue({
     el: '#app',
     components: {
@@ -41,14 +40,23 @@
                 first_name: '',
                 last_name: '',
                 callback_url: '',
+                return_url: '',
                 tx_ref: ''
-            }
+            },
+            paymentStatus: null
           };
         },
         methods: {
           submitForm() {
             // Validate the form data before submitting
             if (this.isValidForm()) {
+            
+                // Generate a unique transaction reference
+              this.formData.tx_ref = generateUniqueTransactionReference();
+
+                // Set the callback URL to your localhost or public URL where you want to receive payment notifications
+              this.formData.callback_url = 'http://localhost:5500/payment-notification';
+
                 // Send data to payment API
               fetch('https://api.paychangu.com/payment', {
                 method: 'POST',
@@ -63,16 +71,30 @@
                 .then(response => {
                   // Handle the API response
                   console.log(response);
+
+                  // Assuming the API returns a success status
+                if (response.status === 'success') {
+                    this.paymentStatus = 'Payment successful!';
+
+                    // Clear the form after a successful payment
+                    this.clearForm();
+
+                    // Optionally, you can redirect to another page
+                    // window.location.href = '/success-page';
+                } else {
+                    this.paymentStatus = 'Payment failed. Please try again.';
+                }
                 })
                 .catch(error => {
                   // Handle API error
                   console.error(error);
+                  this.paymentStatus = 'Payment failed. Please try again.';
                 });
             }
           },
           isValidForm() {
             // Add your validation logic here
-            if (!this.formData.name || !this.formData.email) {
+            if (!this.formData.first_name || !this.formData.last_name || !this.formData.email) {
               alert('Please fill in all fields.');
               return false;
             }
