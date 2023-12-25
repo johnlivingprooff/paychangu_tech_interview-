@@ -1,25 +1,21 @@
-import { Env } from "@humanwhocodes/env";
-
-const env = new Env();
-
-function createPaymentForm() {
-    return new Vue({
+(function() {
+    new Vue({
       el: '#app',
       components: {
         'payment-form': {
           data() {
             return {
               formData: {
-                amount: '',
-                currency: '',
-                email: '',
-                first_name: '',
-                last_name: '',
-                callback_url: 'https://johnlivingprooff.github.io/paychangu_tech_interview-/',
-                return_url: 'https://johnlivingprooff.github.io/paychangu_tech_interview-/paid',
-                tx_ref: '',
-                customization: { title: 'Donation', description: 'Supporting a good cause' },
-                logo: ''
+                  amount: '',
+                  currency: '',
+                  email: '',
+                  first_name: '',
+                  last_name: '',
+                  callback_url: 'https://johnlivingprooff.github.io/paychangu_tech_interview-/',
+                  return_url: 'https://johnlivingprooff.github.io/paychangu_tech_interview-/paid',
+                  tx_ref: '',
+                  customization: { title: 'Donation', description: 'Supporting a good cause' },
+                  logo: ''
               },
               paymentStatus: null
             };
@@ -27,33 +23,34 @@ function createPaymentForm() {
           methods: {
             submitForm() {
               if (this.isValidForm()) {
+                // Generates a unique ref-id for paument
                 this.formData.tx_ref = this.generateUniqueTransactionReference();
                 delete this.formData.callback_url;
-  
+   
                 const options = {
                   method: 'POST',
                   headers: {
-                    accept: 'application/json',
-                    'content-type': 'application/json',
-                    Authorization: env.AUTH_KEY
+                   accept: 'application/json',
+                   'content-type': 'application/json',
+                   Authorization: 'Bearer sec-test-fTdNI49lli8aU0yGQkvgxgcmtvVOWFeM'
                   },
                   body: JSON.stringify(this.formData)
                 };
-  
+   
                 fetch('https://api.paychangu.com/payment', options)
                   .then(response => response.json())
                   .then(response => {
-                    console.log(response);
-                    if (response.status === 'success') {
-                      this.paymentStatus = 'Payment successful!';
-                      this.clearForm();
-                    } else {
-                      this.paymentStatus = 'Payment failed. Please try again.';
-                    }
+                   console.log(response);
+                   if (response.status === 'success') {
+                     this.paymentStatus = 'Payment successful!';
+                     this.clearForm();
+                   } else {
+                     this.paymentStatus = 'Payment failed. Please try again.';
+                   }
                   })
                   .catch(error => {
-                    console.error(error);
-                    this.paymentStatus = 'Payment failed. Please try again.';
+                   console.error(error);
+                   this.paymentStatus = 'Payment failed. Please try again.';
                   });
               }
             },
@@ -68,8 +65,8 @@ function createPaymentForm() {
               return Math.floor(Math.random() * Date.now()).toString();
             },
             clearForm() {
-              Object.keys(this.formData).forEach(key => (this.formData[key] = ''));
-            }
+              Object.keys(this.formData).forEach(key => this.formData[key] = '');
+            },
           },
           template: `
             <div>
@@ -95,8 +92,5 @@ function createPaymentForm() {
         }
       }
     });
-  }
-  
-  // Call the function to create the payment form
-  createPaymentForm();
-  
+   })();
+   
