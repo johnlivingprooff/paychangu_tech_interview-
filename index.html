@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header"></header>
+
+<section class="title">
+    <h1>SUPPORT A GOOD-CAUSE</h1>
+</section>
+
+<div id="app">
+  <payment-form></payment-form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="paychangu.js"></script> 
+
+<script>
+
+  
+  new Vue({
+    el: '#app',
+    components: {
+      'payment-form': {
+        data() {
+          return {
+            formData: {
+                amount: '',
+                currency: '',
+                email: '',
+                first_name: '',
+                last_name: '',
+            }
+          };
+        },
+        methods: {
+          submitForm() {
+            // Validate the form data before submitting
+            if (this.isValidForm()) {
+                // Send data to payment API
+              fetch('https://api.paychangu.com/payment', {
+                method: 'POST',
+                headers: {
+                    accept: 'application/json',
+                    'content-type': 'application/json',
+                    Authorization: 'Bearer ${AUTH_KEY}'
+                },
+                body: JSON.stringify(this.formData)
+              })
+                .then(response => response.json())
+                .then(response => {
+                  // Handle the API response
+                  console.log(response);
+                })
+                .catch(error => {
+                  // Handle API error
+                  console.error(error);
+                });
+            }
+          },
+          isValidForm() {
+            // Add your validation logic here
+            if (!this.formData.name || !this.formData.email) {
+              alert('Please fill in all fields.');
+              return false;
+            }
+            return true;
+          }
+        },
+        template: `
+          <div>
+            <form @submit.prevent="submitForm">
+              <input type="text" id="first_name" placeholder="First Name" v-model="formData.first_name" required>
+              <input type="text" id="last_name" placeholder="Last Name" v-model="formData.last_name" required>
+                <br/>
+              <input type="email" id="email" placeholder="Your Email" v-model="formData.email" required>
+              <br/>
+              <select id="currency" name="selectCurrency" v-model="formData.currency">
+                <option value="MWK">MWK</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+            </select>
+              <input type="number" id="money" placeholder="0.00" v-model="formData.amount" required>
+              <button type="submit" id="s_button">DONATE NOW</button>
+              <button type="submit" id="help_button">?</button>
+            </form>
+          </div>
+        `
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
