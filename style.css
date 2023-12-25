@@ -12,10 +12,30 @@ body {
 }
 
 .title {
-    font-weight: lighter;
-    font-size: 25px;
-    letter-spacing: 5px;
-    text-align: center;
+
+    h1 {
+        font-weight: 990;
+        font-size: 45px;
+        letter-spacing: 5px;
+        text-align: center;
+    }
+    p {
+        font-size: 25px;
+        text-align: center;
+        font-weight: 690;
+        line-height: 35px;
+    }
+    a {
+        color: #585858;
+        font-size: 15px;
+        transition: font-size 0.3s ease;
+        text-decoration: none;
+    }
+}
+
+a:hover {
+    color: wheat;
+    font-size: 17px;
 }
 
 #app {
