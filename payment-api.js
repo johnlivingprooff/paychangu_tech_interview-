@@ -1,7 +1,3 @@
-import { Env } from "@humanwhocodes/env";
-
-const env = new Env();
-
 (function() {
     new Vue({
       el: '#app',
@@ -36,7 +32,7 @@ const env = new Env();
                   headers: {
                    accept: 'application/json',
                    'content-type': 'application/json',
-                   Authorization: env.AUTH_KEY
+                   Authorization: 'Bearer ${AUTH_KEY}'
                   },
                   body: JSON.stringify(this.formData)
                 };
